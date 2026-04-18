@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FiMenu, FiSearch, FiMic } from 'react-icons/fi';
 import { MdVideoCall, MdNotifications, MdOutlineSmartDisplay } from 'react-icons/md';
 
@@ -9,10 +10,10 @@ const Header = () => {
         <button className="menu-icon">
           <FiMenu />
         </button>
-        <div className="logo" style={{ cursor: 'pointer', color: 'var(--text-color)' }}>
+        <Link to="/" className="logo" style={{ cursor: 'pointer', color: 'var(--text-color)', textDecoration: 'none' }}>
           <MdOutlineSmartDisplay className="logo-icon" style={{ color: 'var(--red-accent)' }} />
           VideoApp
-        </div>
+        </Link>
       </div>
       
       <div className="header-center">

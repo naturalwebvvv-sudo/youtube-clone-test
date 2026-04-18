@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const VideoCard = ({ video }) => {
   return (
-    <div className="video-card">
+    <Link to={`/watch/${video.id}`} className="video-card">
       <div className="thumbnail-container">
         <img src={video.thumbnail} alt={video.title} className="thumbnail" />
         <span className="video-duration">{video.duration}</span>
@@ -15,7 +16,7 @@ const VideoCard = ({ video }) => {
           <span className="video-stats">{video.views} • {video.timestamp}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
