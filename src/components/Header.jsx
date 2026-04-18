@@ -1,7 +1,6 @@
 import React from 'react';
 import { FiMenu, FiSearch, FiMic } from 'react-icons/fi';
-import { MdVideoCall, MdNotifications } from 'react-icons/md';
-import { FaYoutube } from 'react-icons/fa';
+import { MdVideoCall, MdNotifications, MdOutlineSmartDisplay } from 'react-icons/md';
 
 const Header = () => {
   return (
@@ -10,9 +9,9 @@ const Header = () => {
         <button className="menu-icon">
           <FiMenu />
         </button>
-        <div className="logo" style={{ cursor: 'pointer' }}>
-          <FaYoutube className="logo-icon" />
-          YouTube
+        <div className="logo" style={{ cursor: 'pointer', color: 'var(--text-color)' }}>
+          <MdOutlineSmartDisplay className="logo-icon" style={{ color: 'var(--red-accent)' }} />
+          VideoApp
         </div>
       </div>
       
