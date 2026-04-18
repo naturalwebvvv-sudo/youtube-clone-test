@@ -28,7 +28,10 @@ const Header = () => {
       </div>
       
       <div className="header-right">
-        <button className="header-icon">
+        <button className="header-icon search-mobile-btn">
+          <FiSearch />
+        </button>
+        <button className="header-icon responsive-hide">
           <MdVideoCall />
         </button>
         <button className="header-icon">

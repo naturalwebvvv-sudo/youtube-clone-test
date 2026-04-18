@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import BottomNav from './components/BottomNav';
 import VideoGrid from './components/VideoGrid';
 import Shorts from './pages/Shorts';
 import Subscriptions from './pages/Subscriptions';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/liked-videos" element={<LikedVideos />} />
         </Routes>
       </div>
+      <BottomNav />
     </Router>
   );
 }
