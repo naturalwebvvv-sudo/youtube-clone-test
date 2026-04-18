@@ -539,3 +539,169 @@ button {
     border-radius: 0;
   }
 }
+
+/* Watch Page */
+.watch-page {
+  display: flex;
+  padding: 24px;
+  gap: 24px;
+  background-color: var(--bg-color);
+  width: 100%;
+}
+
+.watch-primary {
+  flex: 1;
+  max-width: 1280px;
+}
+
+.watch-secondary {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.player-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.watch-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.watch-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.watch-channel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.watch-channel-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.watch-channel-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.watch-channel-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.watch-channel-subs {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.subscribe-btn {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-left: 12px;
+}
+
+.watch-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--hover-bg);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #3f3f3f;
+}
+
+/* Secondary VideoCard for Watch Page */
+.watch-recommendation .video-card {
+  flex-direction: row;
+  margin-bottom: 12px;
+  height: 94px;
+  gap: 8px;
+  border: none;
+  padding-bottom: 0;
+}
+
+.watch-recommendation .thumbnail-container {
+  width: 168px;
+  min-width: 168px;
+  border-radius: 8px;
+}
+
+.watch-recommendation .channel-avatar {
+  display: none;
+}
+
+.watch-recommendation .video-details {
+  padding: 0;
+}
+
+.watch-recommendation .video-title {
+  font-size: 14px;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.watch-recommendation .channel-name,
+.watch-recommendation .video-stats {
+  font-size: 12px;
+}
+
+@media (max-width: 1000px) {
+  .watch-page {
+    flex-direction: column;
+    padding: 0; 
+  }
+  .watch-secondary {
+    width: 100%;
+    padding: 0 16px; 
+  }
+  .player-container {
+    border-radius: 0;
+  }
+  .watch-primary {
+    padding: 0 0 12px 0;
+  }
+  .watch-info-row {
+    padding: 0 12px;
+  }
+  .watch-title {
+    padding: 12px 12px 0 12px;
+  }
+}
