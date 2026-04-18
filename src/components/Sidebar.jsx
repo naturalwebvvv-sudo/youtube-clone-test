@@ -3,9 +3,11 @@ import { NavLink } from 'react-router-dom';
 import { MdHome, MdOutlineExplore, MdSubscriptions, MdOutlineVideoLibrary, MdHistory, MdOutlineWatchLater, MdOutlineThumbUp } from 'react-icons/md';
 import { SiYoutubeshorts } from 'react-icons/si';
 
-const Sidebar = () => {
+const Sidebar = ({ expanded }) => {
+  const sidebarClass = expanded ? "sidebar" : "sidebar mini";
+
   return (
-    <aside className="sidebar">
+    <aside className={sidebarClass}>
       <div className="nav-section">
         <NavLink to="/" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
           <MdHome className="nav-icon" />
