@@ -1,8 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MdThumbUp, MdThumbDown, MdShare, MdDownload } from 'react-icons/md';
+import { MdThumbUp, MdThumbDown, MdShare, MdDownload, MdContentCopy } from 'react-icons/md';
 import VideoCard from '../components/VideoCard';
 import { MOCK_VIDEOS } from '../data/mockdata';
+
+const Slideshow = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const images = [
+    "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&q=80",
+    "https://images.unsplash.com/photo-1682687982501-1e58f813f22b?w=800&q=80",
+    "https://images.unsplash.com/photo-1682687221038-40438aaefa0b?w=800&q=80"
+  ];
+
+  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % images.length);
+  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+
+  return (
+    <div className="slideshow-container">
+      <button className="slide-btn prev" onClick={prevSlide}>&#10094;</button>
+      <img src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} className="slide-image" />
+      <button className="slide-btn next" onClick={nextSlide}>&#10095;</button>
+      <div className="slide-indicators">
+        {images.map((_, i) => (
+          <span key={i} className={`dot ${i === currentIndex ? 'active' : ''}`} onClick={() => setCurrentIndex(i)}></span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Description = ({ video }) => {
+  const textToCopy = `【動画解説】\n${video.title}に関する詳しい解説です。\n\nこの動画では、最新のトレンドや重要なポイントについて深く掘り下げています。詳細な手順や背景知識を理解することで、より一層学びが深まります。\n\n参考リンク：\n- https://example.com/reference1\n- https://example.com/reference2`;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(textToCopy);
+    alert('解説テキストをコピーしました！');
+  };
+
+  return (
+    <div className="watch-description">
+      <div className="description-header">
+        <h3>解説 (Description)</h3>
+        <button className="copy-btn" onClick={handleCopy} title="テキストをコピー">
+          <MdContentCopy /> コピー
+        </button>
+      </div>
+      <p className="description-text">{textToCopy}</p>
+    </div>
+  );
+};
 
 const Watch = () => {
   const { id } = useParams();
@@ -52,6 +98,11 @@ const Watch = () => {
               <MdDownload /> Download
             </button>
           </div>
+        </div>
+        
+        <div className="watch-extra-content">
+          <Slideshow />
+          <Description video={video} />
         </div>
       </div>
       
