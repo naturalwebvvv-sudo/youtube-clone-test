@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MdThumbUp, MdThumbDown, MdShare, MdDownload, MdContentCopy } from 'react-icons/md';
+import { MdThumbUp, MdThumbDown, MdShare, MdDownload, MdContentCopy, MdCheck } from 'react-icons/md';
 import VideoCard from '../components/VideoCard';
 import { MOCK_VIDEOS } from '../data/mockdata';
 
 const Slideshow = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [
-    "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&q=80",
-    "https://images.unsplash.com/photo-1682687982501-1e58f813f22b?w=800&q=80",
-    "https://images.unsplash.com/photo-1682687221038-40438aaefa0b?w=800&q=80"
-  ];
+  const images = Array.from({ length: 10 }).map((_, i) => `https://picsum.photos/id/${i + 20}/800/450`);
 
   const nextSlide = () => setCurrentIndex((prev) => Math.min(prev + 1, images.length - 1));
   const prevSlide = () => setCurrentIndex((prev) => Math.max(prev - 1, 0));
@@ -56,11 +52,13 @@ const Slideshow = () => {
 };
 
 const Description = ({ video }) => {
+  const [copied, setCopied] = useState(false);
   const textToCopy = `【動画解説】\n${video.title}に関する詳しい解説です。\n\nこの動画では、最新のトレンドや重要なポイントについて深く掘り下げています。詳細な手順や背景知識を理解することで、より一層学びが深まります。\n\n参考リンク：\n- https://example.com/reference1\n- https://example.com/reference2`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(textToCopy);
-    alert('解説テキストをコピーしました！');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 500);
   };
 
   return (
@@ -68,7 +66,7 @@ const Description = ({ video }) => {
       <div className="description-header">
         <h3>解説 (Description)</h3>
         <button className="copy-btn" onClick={handleCopy} title="テキストをコピー">
-          <MdContentCopy /> コピー
+          {copied ? <MdCheck /> : <MdContentCopy />} {copied ? 'コピー済み' : 'コピー'}
         </button>
       </div>
       <p className="description-text">{textToCopy}</p>
@@ -92,6 +90,16 @@ const Watch = () => {
     <div className="watch-page">
       <div className="watch-primary">
         <Slideshow />
+        
+        <div className="audio-player-container" style={{ width: '100%', marginBottom: '16px' }}>
+          <audio 
+            controls 
+            src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
+            style={{ width: '100%', height: '40px', borderRadius: '8px' }}
+          >
+            Your browser does not support the audio element.
+          </audio>
+        </div>
         
         <h1 className="watch-title">{video.title}</h1>
         
