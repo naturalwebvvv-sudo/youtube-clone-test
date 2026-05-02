@@ -3,19 +3,18 @@ import { SiYoutubeshorts } from 'react-icons/si';
 
 const Shorts = () => {
   return (
-    <main className="main-content">
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        color: 'var(--text-dim)',
-      }}>
-        <SiYoutubeshorts style={{ fontSize: '64px', color: 'var(--red-accent)', marginBottom: '16px' }} />
-        <h2>Shorts Page</h2>
-        <p style={{ fontSize: '16px', marginTop: '16px' }}>Vertical video feed will go here.</p>
-      </div>
+    <main className="main-content" style={{ display: 'flex', justifyContent: 'center', paddingTop: '20px' }}>
+      <iframe 
+        width="401" 
+        height="713" 
+        src="https://www.youtube.com/embed/r0LlnpIndVQ" 
+        title="マリーアントワネット処刑前までの食事で24時間過ごしてみた#shorts" 
+        frameBorder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerPolicy="strict-origin-when-cross-origin" 
+        allowFullScreen
+        style={{ borderRadius: '12px' }}
+      ></iframe>
     </main>
   );
 };
