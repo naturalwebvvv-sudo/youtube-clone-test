@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MdThumbUp, MdThumbDown, MdShare, MdDownload, MdContentCopy, MdCheck, MdWatchLater } from 'react-icons/md';
 import VideoCard from '../components/VideoCard';
@@ -79,9 +79,12 @@ const Watch = () => {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
   const { addToHistory, likedVideos, toggleLiked, watchLater, toggleWatchLater, subscriptions, toggleSubscription } = useGlobalState();
+  const pageRef = useRef(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Reset scroll position when loading video
+    if (pageRef.current) {
+      pageRef.current.scrollTo(0, 0); // Reset scroll position on container
+    }
     const foundVideo = MOCK_VIDEOS.find(v => v.id === parseInt(id));
     const currentVideo = foundVideo || MOCK_VIDEOS[0];
     setVideo(currentVideo);
@@ -99,7 +102,7 @@ const Watch = () => {
   const isSubscribed = subscriptions.includes(video.channelName);
 
   return (
-    <div className="watch-page">
+    <div className="watch-page" ref={pageRef}>
       <div className="watch-primary">
         <Slideshow key={`slideshow-${video.id}`} videoId={video.id} />
         
