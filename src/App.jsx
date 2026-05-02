@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { GlobalStateProvider } from './context/GlobalStateContext';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import BottomNav from './components/BottomNav';
@@ -23,25 +24,27 @@ function App() {
   };
 
   return (
-    <Router>
-      <Header toggleSidebar={toggleSidebar} />
-      <div className="app-container">
-        <Sidebar expanded={sidebarExpanded} />
-        <Routes>
-          <Route path="/" element={<VideoGrid />} />
-          <Route path="/shorts" element={<Shorts />} />
-          <Route path="/subscriptions" element={<Subscriptions />} />
-          <Route path="/library" element={<Library />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/watch-later" element={<WatchLater />} />
-          <Route path="/liked-videos" element={<LikedVideos />} />
-          <Route path="/watch/:id" element={<Watch />} />
-          <Route path="/search" element={<SearchResult />} />
-          <Route path="/account" element={<Account />} />
-        </Routes>
-      </div>
-      <BottomNav />
-    </Router>
+    <GlobalStateProvider>
+      <Router>
+        <Header toggleSidebar={toggleSidebar} />
+        <div className="app-container">
+          <Sidebar expanded={sidebarExpanded} />
+          <Routes>
+            <Route path="/" element={<VideoGrid />} />
+            <Route path="/shorts" element={<Shorts />} />
+            <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/library" element={<Library />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/watch-later" element={<WatchLater />} />
+            <Route path="/liked-videos" element={<LikedVideos />} />
+            <Route path="/watch/:id" element={<Watch />} />
+            <Route path="/search" element={<SearchResult />} />
+            <Route path="/account" element={<Account />} />
+          </Routes>
+        </div>
+        <BottomNav />
+      </Router>
+    </GlobalStateProvider>
   );
 }
 

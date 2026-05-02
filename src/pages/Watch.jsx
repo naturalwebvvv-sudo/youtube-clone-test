@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MdThumbUp, MdThumbDown, MdShare, MdDownload, MdContentCopy, MdCheck } from 'react-icons/md';
+import { MdThumbUp, MdThumbDown, MdShare, MdDownload, MdContentCopy, MdCheck, MdWatchLater } from 'react-icons/md';
 import VideoCard from '../components/VideoCard';
 import { MOCK_VIDEOS } from '../data/mockdata';
+import { useGlobalState } from '../context/GlobalStateContext';
 
 const Slideshow = ({ videoId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -77,14 +78,25 @@ const Description = ({ video }) => {
 const Watch = () => {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
+  const { addToHistory, likedVideos, toggleLiked, watchLater, toggleWatchLater, subscriptions, toggleSubscription } = useGlobalState();
 
   useEffect(() => {
     window.scrollTo(0, 0); // Reset scroll position when loading video
     const foundVideo = MOCK_VIDEOS.find(v => v.id === parseInt(id));
-    setVideo(foundVideo || MOCK_VIDEOS[0]);
+    const currentVideo = foundVideo || MOCK_VIDEOS[0];
+    setVideo(currentVideo);
+    
+    // Add to history when video is loaded
+    if (currentVideo) {
+      addToHistory(currentVideo);
+    }
   }, [id]);
 
   if (!video) return <div>Loading...</div>;
+
+  const isLiked = likedVideos.some(v => v.id === video.id);
+  const isWatchLater = watchLater.some(v => v.id === video.id);
+  const isSubscribed = subscriptions.includes(video.channelName);
 
   return (
     <div className="watch-page">
@@ -111,12 +123,32 @@ const Watch = () => {
               <span className="watch-channel-name">{video.channelName}</span>
               <span className="watch-channel-subs">1.2M subscribers</span>
             </div>
-            <button className="subscribe-btn">Subscribe</button>
+            <button 
+              className={`subscribe-btn ${isSubscribed ? 'subscribed' : ''}`}
+              onClick={() => toggleSubscription(video.channelName)}
+              style={isSubscribed ? { backgroundColor: '#3ea6ff', color: '#000' } : {}}
+            >
+              {isSubscribed ? 'Subscribed' : 'Subscribe'}
+            </button>
           </div>
           
           <div className="watch-actions">
-            <button className="action-btn">
-              <MdThumbUp /> 12K <span style={{ marginLeft: '8px', borderLeft: '1px solid #555', paddingLeft: '8px' }}><MdThumbDown /></span>
+            <button 
+              className="action-btn" 
+              onClick={() => toggleLiked(video)}
+              style={isLiked ? { color: '#3ea6ff' } : {}}
+            >
+              <MdThumbUp /> {isLiked ? '12K' : '11K'} 
+              <span style={{ marginLeft: '8px', borderLeft: '1px solid #555', paddingLeft: '8px', color: 'inherit' }}>
+                <MdThumbDown />
+              </span>
+            </button>
+            <button 
+              className="action-btn"
+              onClick={() => toggleWatchLater(video)}
+              style={isWatchLater ? { color: '#3ea6ff' } : {}}
+            >
+              <MdWatchLater /> {isWatchLater ? 'Added' : 'Save'}
             </button>
             <button className="action-btn">
               <MdShare /> Share
