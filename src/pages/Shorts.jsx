@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const SHORTS_DATA = [
   {
@@ -23,6 +23,74 @@ const SHORTS_DATA = [
   }
 ];
 
+const ShortVideo = ({ short }) => {
+  const containerRef = useRef(null);
+  const iframeRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (iframeRef.current) {
+            if (entry.isIntersecting) {
+              iframeRef.current.contentWindow.postMessage(
+                '{"event":"command","func":"playVideo","args":""}', 
+                '*'
+              );
+            } else {
+              iframeRef.current.contentWindow.postMessage(
+                '{"event":"command","func":"pauseVideo","args":""}', 
+                '*'
+              );
+            }
+          }
+        });
+      },
+      { threshold: 0.6 } // Play when 60% visible
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div 
+      ref={containerRef}
+      style={{ 
+        height: '100%', 
+        minHeight: '100%', 
+        width: '100%', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        scrollSnapAlign: 'start',
+        scrollSnapStop: 'always',
+        padding: '20px 0'
+      }}
+    >
+      <iframe 
+        ref={iframeRef}
+        width="401" 
+        height="713" 
+        src={`https://www.youtube.com/embed/${short.id}?enablejsapi=1`} 
+        title={short.title} 
+        frameBorder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerPolicy="strict-origin-when-cross-origin" 
+        allowFullScreen
+        style={{ borderRadius: '12px', maxWidth: '100%', maxHeight: '100%' }}
+      ></iframe>
+    </div>
+  );
+};
+
 const Shorts = () => {
   return (
     <main 
@@ -36,32 +104,7 @@ const Shorts = () => {
       }}
     >
       {SHORTS_DATA.map((short) => (
-        <div 
-          key={short.id} 
-          style={{ 
-            height: '100%', 
-            minHeight: '100%', 
-            width: '100%', 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            scrollSnapAlign: 'start',
-            scrollSnapStop: 'always',
-            padding: '20px 0'
-          }}
-        >
-          <iframe 
-            width="401" 
-            height="713" 
-            src={`https://www.youtube.com/embed/${short.id}`} 
-            title={short.title} 
-            frameBorder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerPolicy="strict-origin-when-cross-origin" 
-            allowFullScreen
-            style={{ borderRadius: '12px', maxWidth: '100%', maxHeight: '100%' }}
-          ></iframe>
-        </div>
+        <ShortVideo key={short.id} short={short} />
       ))}
     </main>
   );
