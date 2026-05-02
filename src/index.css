@@ -631,6 +631,12 @@ button {
 .watch-actions {
   display: flex;
   gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 100%;
+}
+.watch-actions::-webkit-scrollbar {
+  display: none;
 }
 
 .action-btn {
@@ -643,6 +649,8 @@ button {
   font-size: 14px;
   font-weight: 500;
   transition: background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .action-btn:hover {
