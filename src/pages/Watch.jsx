@@ -12,18 +12,44 @@ const Slideshow = () => {
     "https://images.unsplash.com/photo-1682687221038-40438aaefa0b?w=800&q=80"
   ];
 
-  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % images.length);
-  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  const nextSlide = () => setCurrentIndex((prev) => Math.min(prev + 1, images.length - 1));
+  const prevSlide = () => setCurrentIndex((prev) => Math.max(prev - 1, 0));
+
+  const handleImageClick = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    if (x < rect.width / 2) {
+      prevSlide();
+    } else {
+      nextSlide();
+    }
+  };
+
+  const handleSeek = (e) => {
+    setCurrentIndex(Number(e.target.value));
+  };
 
   return (
-    <div className="slideshow-container">
-      <button className="slide-btn prev" onClick={prevSlide}>&#10094;</button>
-      <img src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} className="slide-image" />
-      <button className="slide-btn next" onClick={nextSlide}>&#10095;</button>
-      <div className="slide-indicators">
-        {images.map((_, i) => (
-          <span key={i} className={`dot ${i === currentIndex ? 'active' : ''}`} onClick={() => setCurrentIndex(i)}></span>
-        ))}
+    <div className="player-container slideshow-player">
+      <div className="slideshow-image-wrapper">
+        <img 
+          src={images[currentIndex]} 
+          alt={`Slide ${currentIndex + 1}`} 
+          className="slide-image clickable" 
+          onClick={handleImageClick}
+        />
+        {currentIndex > 0 && <button className="slide-btn prev" onClick={prevSlide}>&#10094;</button>}
+        {currentIndex < images.length - 1 && <button className="slide-btn next" onClick={nextSlide}>&#10095;</button>}
+      </div>
+      <div className="slideshow-controls">
+        <input 
+          type="range" 
+          min="0" 
+          max={images.length - 1} 
+          value={currentIndex} 
+          onChange={handleSeek}
+          className="slideshow-seekbar"
+        />
       </div>
     </div>
   );
@@ -65,15 +91,7 @@ const Watch = () => {
   return (
     <div className="watch-page">
       <div className="watch-primary">
-        <div className="player-container">
-          <iframe 
-            className="player-iframe" 
-            src={`https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1`} 
-            title="Video Player" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen>
-          </iframe>
-        </div>
+        <Slideshow />
         
         <h1 className="watch-title">{video.title}</h1>
         
@@ -101,7 +119,6 @@ const Watch = () => {
         </div>
         
         <div className="watch-extra-content">
-          <Slideshow />
           <Description video={video} />
         </div>
       </div>
