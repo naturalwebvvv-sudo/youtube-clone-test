@@ -4,9 +4,9 @@ import { MdThumbUp, MdThumbDown, MdShare, MdDownload, MdContentCopy, MdCheck } f
 import VideoCard from '../components/VideoCard';
 import { MOCK_VIDEOS } from '../data/mockdata';
 
-const Slideshow = () => {
+const Slideshow = ({ videoId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = Array.from({ length: 10 }).map((_, i) => `https://picsum.photos/id/${i + 20}/800/450`);
+  const images = Array.from({ length: 10 }).map((_, i) => `https://picsum.photos/id/${(videoId * 10 + i) % 1000}/800/450`);
 
   const nextSlide = () => setCurrentIndex((prev) => Math.min(prev + 1, images.length - 1));
   const prevSlide = () => setCurrentIndex((prev) => Math.max(prev - 1, 0));
@@ -89,12 +89,13 @@ const Watch = () => {
   return (
     <div className="watch-page">
       <div className="watch-primary">
-        <Slideshow />
+        <Slideshow key={`slideshow-${video.id}`} videoId={video.id} />
         
         <div className="audio-player-container" style={{ width: '100%', marginBottom: '16px' }}>
           <audio 
+            key={`audio-${video.id}`}
             controls 
-            src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
+            src={`https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${(video.id % 16) + 1}.mp3`} 
             style={{ width: '100%', height: '40px', borderRadius: '8px' }}
           >
             Your browser does not support the audio element.
@@ -127,7 +128,7 @@ const Watch = () => {
         </div>
         
         <div className="watch-extra-content">
-          <Description video={video} />
+          <Description key={`desc-${video.id}`} video={video} />
         </div>
       </div>
       
