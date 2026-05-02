@@ -29,12 +29,21 @@ const Slideshow = ({ videoId }) => {
   return (
     <div className="player-container slideshow-player">
       <div className="slideshow-image-wrapper">
-        <img 
-          src={images[currentIndex]} 
-          alt={`Slide ${currentIndex + 1}`} 
-          className="slide-image clickable" 
-          onClick={handleImageClick}
-        />
+        {images.map((src, index) => (
+          <img 
+            key={index}
+            src={src} 
+            alt={`Slide ${index + 1}`} 
+            className="slide-image clickable" 
+            onClick={handleImageClick}
+            style={{ 
+              display: index === currentIndex ? 'block' : 'none',
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain'
+            }}
+          />
+        ))}
         {currentIndex > 0 && <button className="slide-btn prev" onClick={prevSlide}>&#10094;</button>}
         {currentIndex < images.length - 1 && <button className="slide-btn next" onClick={nextSlide}>&#10095;</button>}
       </div>
